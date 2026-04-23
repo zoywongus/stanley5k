@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stanley's Seattle 5k</title>
+  <meta name="description" content="Join us for Stanley's Seattle 5k, a scenic run around Green Lake." />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png" />
+  <style>
+    :root {
+      --ink: #0b1d2a;
+      --ink-soft: #2a3b48;
+      --muted: #6b7a85;
+      --paper: #f5f1ea;
+      --paper-soft: #ffffff;
+      --accent: #0d6e6e;      /* Puget Sound teal */
+      --accent-dark: #084e4e;
+      --accent-soft: #d7ebe9;
+      --sunset: #e6733a;
+      --line: #e3dcd0;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(11, 29, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent-dark); }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---------- Nav ---------- */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(245, 241, 234, 0.85);
+      backdrop-filter: saturate(140%) blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .brand span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 22px;
+    }
+    .nav-links a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--accent-dark); }
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .btn.lg { padding: 14px 26px; font-size: 16px; }
+    .btn.ghost {
+      background: transparent;
+      color: var(--accent-dark);
+      border: 1.5px solid var(--accent-dark);
+    }
+    .btn.ghost:hover { background: var(--accent-soft); }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      padding: 80px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 380px; height: 380px;
+      background: radial-gradient(closest-side, var(--accent-soft), transparent);
+      z-index: 0;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+    }
+    .hero-image {
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(11, 29, 42, 0.18);
+      aspect-ratio: 4 / 3;
+      background: var(--accent-soft);
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .eyebrow {
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.05;
+      margin: 0 0 18px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+    }
+    h1 span { color: var(--accent); }
+    .lede {
+      font-size: clamp(16px, 1.6vw, 19px);
+      color: var(--ink-soft);
+      max-width: 620px;
+      margin: 0 0 32px;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+    .meta-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--paper-soft);
+      border: 1px solid var(--line);
+      display: grid; place-items: center;
+      color: var(--accent);
+      font-size: 16px;
+    }
+    .meta-item strong { color: var(--ink); display: block; font-weight: 700; }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ---------- Sections ---------- */
+    section { padding: 72px 0; }
+    section.alt { background: var(--paper-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    h2 {
+      font-size: clamp(28px, 3.6vw, 40px);
+      margin: 0 0 12px;
+      letter-spacing: -0.5px;
+    }
+    .section-lede { color: var(--muted); max-width: 640px; margin: 0 0 40px; }
+
+    /* ---------- Details grid ---------- */
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .card .tag {
+      font-size: 12px; font-weight: 700;
+      color: var(--accent-dark);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 10px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 20px; }
+    .card p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+    /* ---------- Schedule ---------- */
+    .schedule {
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--paper-soft);
+    }
+    .schedule-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 24px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .schedule-row:last-child { border-bottom: none; }
+    .schedule-row time {
+      font-weight: 700;
+      color: var(--accent-dark);
+      font-variant-numeric: tabular-nums;
+    }
+    .schedule-row .desc strong { display: block; }
+    .schedule-row .desc span { color: var(--muted); font-size: 14px; }
+
+    /* ---------- FAQ ---------- */
+    details {
+      background: var(--paper-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 12px;
+    }
+    details[open] { box-shadow: var(--shadow); }
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    summary::-webkit-details-marker { display: none; }
+    #faq summary::after {
+      content: "+";
+      font-size: 22px;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+    #faq details[open] summary::after { content: "–"; }
+    details p { color: var(--ink-soft); margin: 12px 0 0; }
+
+    /* ---------- Qualifier ---------- */
+    .qualifier-section {
+      background: linear-gradient(135deg, #0b1d2a 0%, #102f3f 100%);
+      color: #e8eff3;
+      position: relative;
+      overflow: hidden;
+    }
+    .qualifier-section::before {
+      content: "";
+      position: absolute;
+      top: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(closest-side, rgba(111, 215, 207, 0.14), transparent);
+    }
+    .qualifier-section .container { position: relative; z-index: 1; }
+    .qualifier-section h2 { color: white; }
+    .qualifier-section h2 .q-highlight { color: #6fd7cf; }
+    .qualifier-section .eyebrow {
+      background: rgba(111, 215, 207, 0.12);
+      color: #6fd7cf;
+    }
+    .qualifier-lede {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 17px;
+      max-width: 720px;
+      margin: 0 0 40px;
+      line-height: 1.6;
+    }
+    .qualifier-lede strong { color: white; }
+    .qualifier-details {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    .qualifier-details[open] { border-color: rgba(111, 215, 207, 0.3); }
+    .qualifier-details > summary {
+      padding: 24px 28px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .qualifier-details > summary::-webkit-details-marker { display: none; }
+    .qualifier-details > summary::marker { content: ""; }
+    .q-summary-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .q-summary-left .eyebrow { margin: 0; }
+    .q-summary-left h2 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.15;
+    }
+    .q-toggle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(111, 215, 207, 0.12);
+      color: #6fd7cf;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, background 0.2s ease;
+    }
+    .q-toggle svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+    .qualifier-details[open] .q-toggle {
+      transform: rotate(45deg);
+      background: rgba(111, 215, 207, 0.22);
+    }
+    .qualifier-body {
+      padding: 4px 28px 28px;
+    }
+    .qualifier-single {
+      max-width: 440px;
+      margin: 0 0 28px;
+    }
+    .qualifier-single h4 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.55);
+      margin: 0 0 14px;
+      font-weight: 700;
+    }
+    .q-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .q-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .q-table tr:last-child { border-bottom: none; }
+    .q-table td {
+      padding: 12px 0;
+      font-variant-numeric: tabular-nums;
+      font-size: 15px;
+    }
+    .q-table td:first-child { color: rgba(255, 255, 255, 0.7); }
+    .q-table td:last-child {
+      text-align: right;
+      font-weight: 700;
+      color: #6fd7cf;
+      font-size: 18px;
+    }
+    .qualifier-foot {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 13px;
+      max-width: 640px;
+      margin: 0;
+    }
+
+    /* ---------- Fee / canned goods ---------- */
+    .fee-section { padding: 72px 0; }
+    .fee-card {
+      background: var(--paper-soft);
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--sunset);
+      border-radius: var(--radius);
+      padding: 40px 44px;
+      box-shadow: var(--shadow);
+    }
+    @media (max-width: 720px) {
+      .fee-card { padding: 32px 24px; }
+    }
+    .fee-body .eyebrow {
+      background: #fdf0e8;
+      color: #b3501f;
+      margin-bottom: 14px;
+    }
+    .fee-body h2 {
+      margin: 0 0 12px;
+      font-size: clamp(24px, 3vw, 32px);
+    }
+    .fee-body p {
+      color: var(--ink-soft);
+      font-size: 16px;
+      margin: 0 0 14px;
+      max-width: 680px;
+    }
+    .fee-body p:last-child { margin-bottom: 0; }
+    .fee-formula {
+      display: inline-block;
+      background: var(--paper);
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 6px 0 14px;
+      font-size: 15px;
+    }
+    .fee-formula .accent { color: var(--sunset); }
+    .fee-examples {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* ---------- Sponsors ---------- */
+    .not-sponsored-note {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--muted);
+      margin: 0 0 14px;
+      opacity: 0.7;
+      font-weight: 600;
+    }
+    .sponsors {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+    .sponsor {
+      background: var(--paper-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 110px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sponsor:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .sponsor img {
+      max-width: 100%;
+      max-height: 60px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* ---------- Register band ---------- */
+    .register-band {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white;
+      border-radius: 20px;
+      padding: 48px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow);
+    }
+    .register-band h2 { color: white; margin: 0 0 6px; }
+    .register-band p { color: rgba(255,255,255,0.85); margin: 0; max-width: 520px; }
+    .register-band .btn {
+      background: white;
+      color: var(--accent-dark);
+    }
+    .register-band .btn:hover { background: var(--paper); }
+
+    /* ---------- Footer ---------- */
+    footer {
+      padding: 40px 0 60px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer a { color: var(--ink-soft); text-decoration: none; margin-left: 16px; }
+    footer a:hover { color: var(--accent-dark); }
+
+    /* ---------- Modal ---------- */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 29, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .modal-backdrop.open {
+      display: flex;
+      opacity: 1;
+    }
+    .modal {
+      background: var(--paper-soft);
+      border-radius: 18px;
+      max-width: 460px;
+      width: 100%;
+      padding: 36px 32px 28px;
+      box-shadow: 0 30px 80px rgba(11, 29, 42, 0.25);
+      position: relative;
+      transform: translateY(12px);
+      transition: transform 0.2s ease;
+    }
+    .modal-backdrop.open .modal { transform: translateY(0); }
+    .modal h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      letter-spacing: -0.3px;
+    }
+    .modal p {
+      margin: 0 0 24px;
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+    .modal .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .modal-close:hover { background: var(--paper); color: var(--ink); }
+    .modal .eyebrow { margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <a href="#top" class="brand">Stanley's Seattle <span>5k</span></a>
+      <div class="nav-links">
+        <a href="#details">Details</a>
+        <a href="#qualifier">SQ</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#faq">FAQ</a>
+        <a href="#sponsors">Sponsors</a>
+      </div>
+      <a href="#register" class="btn js-register">Register</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">Date TBD · August 2026</span>
+        <h1>Stanley's Seattle <span>5k</span></h1>
+        <p class="lede">
+          A scenic 5-kilometer loop around Green Lake, Seattle's favorite running spot.
+          One lap, flat the whole way, with views of the water the entire time, and an <strong>official Stanley Qualifier</strong> for the Stanley Marathon.
+        </p>
+
+        <div class="hero-meta">
+          <div class="meta-item">
+            <div class="meta-icon">📅</div>
+            <div><strong>TBD · August 2026</strong>Race day</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-icon">⏰</div>
+            <div><strong>8:00 AM</strong>Gun time</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-icon">📍</div>
+            <div><strong>Green Lake Park</strong>Seattle, WA</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-icon">🎟️</div>
+            <div><strong>Race fee</strong>See below</div>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <a href="#" class="btn lg js-register">Register now</a>
+          <a href="#details" class="btn lg ghost">Learn more</a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img src="images/stanley-running.jpg" alt="Stanley on a run around Green Lake">
+      </div>
+    </div>
+  </header>
+
+  <!-- DETAILS -->
+  <section id="details" class="alt">
+    <div class="container">
+      <h2>The race</h2>
+      <p class="section-lede">
+        One flat loop around Green Lake. 2.8 miles of paved path plus a short connector to make it a true 5k.
+        Chip-timed, well-marshaled, with aid stations and finisher swag.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="tag">Distance</div>
+          <h3>5 kilometers</h3>
+          <p>3.1 miles on the paved Green Lake loop path. Course map posted one week before race day.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Timing</div>
+          <h3>Chip-timed</h3>
+          <p>Official results posted within 3 hours of the finish. Awards for the top finishers, plus additional prizes raffled off to participants.</p>
+        </div>
+        <div class="card">
+          <div class="tag">What's included</div>
+          <h3>Bib + finisher medal</h3>
+          <p>All registered runners get a bib number and a finisher medal at the chute. No race shirt provided.</p>
+        </div>
+        <div class="card">
+          <div class="tag">Vibe</div>
+          <h3>Sprinters welcome</h3>
+          <p>Sprinters welcome, runners tolerated, walkers tolerated. Show up, move forward, have fun.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RACE FEE -->
+  <section id="fee" class="fee-section">
+    <div class="container">
+      <div class="fee-card">
+        <div class="fee-body">
+          <span class="eyebrow">Race fee</span>
+          <p>The entry fee to race is one canned or non-perishable food item for every marathon the runner has completed in their lifetime, donated to a local Seattle food bank or charity.</p>
+          <div class="fee-formula">
+            <span class="accent">1 item</span> <span class="accent">×</span> every marathon you've ever finished
+          </div>
+          <p>Never run a marathon? One item. Five? Five items. Drop-off details and logistics will be shared with registered runners ahead of race day. This is not a race-morning drop-off.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STANLEY QUALIFIER -->
+  <section id="qualifier" class="qualifier-section">
+    <div class="container">
+      <details class="qualifier-details">
+        <summary>
+          <div class="q-summary-left">
+            <span class="eyebrow">Stanley Qualifier · SQ</span>
+            <h2>A path to the <span class="q-highlight">Stanley Marathon</span></h2>
+          </div>
+          <span class="q-toggle" aria-hidden="true">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 2 L8 14 M2 8 L14 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="qualifier-body">
+          <p class="qualifier-lede">
+            Stanley's Seattle 5k is an <strong>official Stanley Qualifier (SQ)</strong> event. Finish within your age group's SQ standard and you'll lock in an automatic bib to the famed <strong>Stanley Marathon</strong>. No lottery, no waitlist, no re-qualifying. SQ standards are calculated as a percentage of the overall race winner's time, scaled by age.
+          </p>
+
+          <div class="qualifier-single">
+            <h4>Age group · SQ standard</h4>
+            <table class="q-table">
+              <tr><td>18–34</td><td>75%</td></tr>
+              <tr><td>35–49</td><td>70%</td></tr>
+              <tr><td>50–64</td><td>65%</td></tr>
+              <tr><td>65+</td><td>60%</td></tr>
+            </table>
+          </div>
+
+          <p class="qualifier-foot">Qualifying performance must be verified via the official race chip-timing system. Self-reported results are not accepted. Final SQ standards are confirmed race week and may be subject to revision at the race director's discretion.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <div class="container">
+      <h2>Race day schedule</h2>
+      <p class="section-lede">All times on race day (TBD, August 2026). Packet pickup also available the day before at TBD.</p>
+
+      <div class="schedule">
+        <div class="schedule-row">
+          <time>6:45 AM</time>
+          <div class="desc"><strong>Packet pickup &amp; day-of registration opens</strong><span>At the start line tent</span></div>
+        </div>
+        <div class="schedule-row">
+          <time>8:00 AM</time>
+          <div class="desc"><strong>5k gun time</strong><span>Runners to the line 5 minutes prior</span></div>
+        </div>
+        <div class="schedule-row">
+          <time>8:45 AM</time>
+          <div class="desc"><strong>Awards ceremony &amp; raffle</strong><span>Top finisher awards plus raffle prizes</span></div>
+        </div>
+        <div class="schedule-row">
+          <time>9:30 AM</time>
+          <div class="desc"><strong>Course closes</strong><span>Thanks for running!</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="register" class="alt">
+    <div class="container">
+      <div class="register-band">
+        <div>
+          <h2>Ready to run?</h2>
+          <p>Registration opens soon. Keep an eye on this page for updates as race day approaches.</p>
+        </div>
+        <a href="#" class="btn lg js-register">Register →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>FAQ</h2>
+      <p class="section-lede">Can't find what you're looking for? Email Stanley at <a href="mailto:stanleywongus@icloud.com">stanleywongus@icloud.com</a>.</p>
+
+      <details>
+        <summary>Is there day-of registration?</summary>
+        <p>Yes. Sign up at the start-line tent starting at 6:45 AM. Heads up: the day-of race fee is <strong>double</strong> the pre-registration fee, so signing up in advance saves you a chunk of change.</p>
+      </details>
+      <details>
+        <summary>How do I get there / where do I park?</summary>
+        <p>Parking around Green Lake is extremely limited on weekend mornings, so public transit or walking is strongly recommended. Each runner is responsible for arranging their own transportation and parking. We won't be posting specific lot or street-parking info on this site.</p>
+        <p><strong>Please do not run-commute to the start line.</strong> Arriving on tired legs compromises the integrity of the race for everyone competing fresh, and any runner found to have run-commuted may be disqualified from official results.</p>
+      </details>
+      <details>
+        <summary>Can I bring my dog / stroller?</summary>
+        <p>Yes, dogs and strollers are welcome as long as dogs are leashed at all times. Please line up at the back of the pack for everyone's safety.</p>
+      </details>
+      <details>
+        <summary>What about the weather?</summary>
+        <p>It's Seattle, so the race proceeds rain or shine, including through typical wet, windy, or cold conditions. The only reason we'd cancel is if the <a href="https://www.weather.gov/sew/" target="_blank" rel="noopener">National Weather Service Seattle office</a> issues a severe weather warning (e.g. lightning, extreme heat, or other genuinely unsafe conditions) for the Green Lake area on race day. If that happens, registered runners will be notified by email as early as possible.</p>
+      </details>
+      <details>
+        <summary>Can I get a refund?</summary>
+        <p>Strict no-refund policy. All entries are final, including in the event of cancellation, injury, or no-show. Bibs are non-transferable.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- SPONSORS -->
+  <section id="sponsors" class="alt">
+    <div class="container">
+      <h2>Sponsors</h2>
+      <p class="section-lede">Huge thanks to the local businesses making this race possible. Interested in sponsoring? Contact Stanley at <a href="mailto:stanleywongus@icloud.com">stanleywongus@icloud.com</a>.</p>
+      <p class="not-sponsored-note">not sponsored by:</p>
+      <div class="sponsors">
+        <div class="sponsor"><img src="images/fleetfeet.jpg" alt="Fleet Feet"></div>
+        <div class="sponsor"><img src="images/nike.jpg" alt="Nike"></div>
+        <div class="sponsor"><img src="images/adidas.png" alt="adidas"></div>
+        <div class="sponsor"><img src="images/harvard.png" alt="Harvard University"></div>
+        <div class="sponsor"><img src="images/microsoft.jpg" alt="Microsoft"></div>
+        <div class="sponsor"><img src="images/mcdonalds.png" alt="McDonald's"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div>© <span id="year"></span> Stanley's Seattle 5k · Seattle, WA</div>
+      <div>
+        <a href="mailto:stanleywongus@icloud.com">Contact</a>
+        <a href="#" class="js-instagram">Instagram</a>
+        <a href="https://www.strava.com/clubs/1475129" target="_blank" rel="noopener">Strava club</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- REGISTRATION MODAL -->
+  <div class="modal-backdrop" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="registerModalTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" aria-label="Close" data-close>&times;</button>
+      <span class="eyebrow">Coming soon</span>
+      <h3 id="registerModalTitle">Registration opens soon</h3>
+      <p>We're still finalizing race-day details for August 2026. Check back soon. Signups will open here as soon as the date is locked in.</p>
+      <div class="modal-actions">
+        <button class="btn" data-close>Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTAGRAM MODAL -->
+  <div class="modal-backdrop" id="instagramModal" role="dialog" aria-modal="true" aria-labelledby="instagramModalTitle" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" aria-label="Close" data-close>&times;</button>
+      <span class="eyebrow">TBD</span>
+      <h3 id="instagramModalTitle">Instagram coming soon</h3>
+      <p>We don't have an Instagram account set up for the race yet. Check back closer to race day.</p>
+      <div class="modal-actions">
+        <button class="btn" data-close>Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Modal wiring (shared behavior for any .modal-backdrop + matching triggers)
+    (function () {
+      function bindModal(modalId, triggerSelector) {
+        var modal = document.getElementById(modalId);
+        if (!modal) return;
+        var triggers = document.querySelectorAll(triggerSelector);
+        var closers = modal.querySelectorAll('[data-close]');
+
+        function openModal(e) {
+          if (e) e.preventDefault();
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        triggers.forEach(function (t) { t.addEventListener('click', openModal); });
+        closers.forEach(function (c) { c.addEventListener('click', closeModal); });
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+        });
+      }
+
+      bindModal('registerModal', '.js-register');
+      bindModal('instagramModal', '.js-instagram');
+    })();
+  </script>
+</body>
+</html>
